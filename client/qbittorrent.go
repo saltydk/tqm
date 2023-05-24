@@ -2,6 +2,7 @@ package client
 
 import (
 	"fmt"
+	"github.com/shirou/gopsutil/disk"
 	"io/ioutil"
 	"path/filepath"
 	"strings"
@@ -231,16 +232,16 @@ func (c *QBittorrent) SetTorrentLabel(hash string, label string) error {
 
 func (c *QBittorrent) GetCurrentFreeSpace(path string) (int64, error) {
 	// get current main stats
-	data, err := c.client.Sync.GetMainData(0)
+	data, err := disk.Usage(path)
 	if err != nil {
 		return 0, fmt.Errorf("get main data: %w", err)
 	}
 
 	// set internal free size
-	c.freeSpaceGB = float64(data.ServerState.FreeSpaceOnDisk) / humanize.GiByte
+	c.freeSpaceGB = float64(data.Free) / humanize.GiByte
 	c.freeSpaceSet = true
 
-	return int64(data.ServerState.FreeSpaceOnDisk), nil
+	return int64(data.Free), nil
 }
 
 func (c *QBittorrent) AddFreeSpace(bytes int64) {
