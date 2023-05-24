@@ -10,7 +10,7 @@ type Interface interface {
 	GetTorrents() (map[string]config.Torrent, error)
 	RemoveTorrent(string, bool) (bool, error)
 	SetTorrentLabel(string, string) error
-	GetCurrentFreeSpace(string) (int64, error)
+	GetCurrentFreeSpace(string) (uint64, error)
 	AddFreeSpace(int64)
 	GetFreeSpace() float64
 

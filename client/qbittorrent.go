@@ -230,7 +230,7 @@ func (c *QBittorrent) SetTorrentLabel(hash string, label string) error {
 	return nil
 }
 
-func (c *QBittorrent) GetCurrentFreeSpace(path string) (int64, error) {
+func (c *QBittorrent) GetCurrentFreeSpace(path string) (uint64, error) {
 	// get current main stats
 	data, err := disk.Usage(path)
 	if err != nil {
@@ -241,7 +241,7 @@ func (c *QBittorrent) GetCurrentFreeSpace(path string) (int64, error) {
 	c.freeSpaceGB = float64(data.Free) / humanize.GiByte
 	c.freeSpaceSet = true
 
-	return int64(data.Free), nil
+	return data.Free, nil
 }
 
 func (c *QBittorrent) AddFreeSpace(bytes int64) {

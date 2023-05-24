@@ -2,6 +2,7 @@ package client
 
 import (
 	"fmt"
+	"github.com/shirou/gopsutil/disk"
 	"path"
 	"time"
 
@@ -236,18 +237,18 @@ func (c *Deluge) SetTorrentLabel(hash string, label string) error {
 	return nil
 }
 
-func (c *Deluge) GetCurrentFreeSpace(path string) (int64, error) {
-	// get free disk space
-	space, err := c.client.GetFreeSpace(path)
+func (c *Deluge) GetCurrentFreeSpace(path string) (uint64, error) {
+	// get current main stats
+	data, err := disk.Usage(path)
 	if err != nil {
-		return 0, fmt.Errorf("get free disk space: %v: %w", path, err)
+		return 0, fmt.Errorf("get main data: %w", err)
 	}
 
 	// set internal free size
-	c.freeSpaceGB = float64(space) / humanize.GiByte
+	c.freeSpaceGB = float64(data.Free) / humanize.GiByte
 	c.freeSpaceSet = true
 
-	return space, nil
+	return data.Free, nil
 }
 
 func (c *Deluge) AddFreeSpace(bytes int64) {
