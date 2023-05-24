@@ -3,7 +3,6 @@ package cmd
 import (
 	"encoding/json"
 	"github.com/dustin/go-humanize"
-	"github.com/shirou/gopsutil/disk"
 	"github.com/spf13/cobra"
 
 	"github.com/l3uddz/tqm/client"
@@ -88,12 +87,12 @@ var cleanCmd = &cobra.Command{
 		// get free disk space (can/will be used by filters)
 		if clientFreeSpacePath != nil {
 
-			space, err := disk.Usage(*clientFreeSpacePath)
+			space, err := c.GetCurrentFreeSpace(*clientFreeSpacePath)
 			if err != nil {
 				log.WithError(err).Warnf("Failed retrieving free-space for: %q", *clientFreeSpacePath)
 			} else {
 				log.Infof("Retrieved free-space for %q: %v (%.2f GB)", *clientFreeSpacePath,
-					humanize.IBytes(space.Free), c.GetFreeSpace())
+					humanize.IBytes(space), c.GetFreeSpace())
 			}
 		}
 
