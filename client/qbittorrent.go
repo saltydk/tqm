@@ -2,7 +2,9 @@ package client
 
 import (
 	"fmt"
+	"github.com/hashicorp/go-version"
 	"github.com/shirou/gopsutil/disk"
+	"github.com/sirupsen/logrus"
 	"io"
 	"path/filepath"
 	"strings"
@@ -10,13 +12,10 @@ import (
 
 	"github.com/dustin/go-humanize"
 	"github.com/l3uddz/go-qbt"
-	"github.com/sirupsen/logrus"
-
 	"github.com/saltydk/tqm/config"
 	"github.com/saltydk/tqm/expression"
 	"github.com/saltydk/tqm/logger"
 	"github.com/saltydk/tqm/sliceutils"
-	"github.com/saltydk/tqm/stringutils"
 )
 
 /* Struct */
@@ -79,15 +78,26 @@ func (c *QBittorrent) Connect() error {
 	}
 
 	// retrieve & validate api version
-	apiVersion, err := c.client.Application.GetAPIVersion()
-	c.log.Debugf("API Version (converted): %v", apiVersion[0:3])
+	apiVersionStr, err := c.client.Application.GetAPIVersion()
 	if err != nil {
 		return fmt.Errorf("get api version: %w", err)
-	} else if stringutils.Atof64(apiVersion[0:3], 0.0) < 2.2 {
-		return fmt.Errorf("unsupported webapi version: %v", apiVersion)
 	}
 
-	c.log.Debugf("API Version: %v", apiVersion)
+	c.log.Debugf("API Version: %v", apiVersionStr)
+
+	// Parse version string
+	apiVersion, err := version.NewVersion(apiVersionStr)
+	if err != nil {
+		return fmt.Errorf("parse api version: %w", err)
+	}
+
+	// Define minimum supported version
+	minVersion, _ := version.NewVersion("2.2")
+
+	if apiVersion.LessThan(minVersion) {
+		return fmt.Errorf("unsupported webapi version: %v", apiVersionStr)
+	}
+
 	return nil
 }
 
