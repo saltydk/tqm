@@ -11,8 +11,8 @@ import (
 	"github.com/sirupsen/logrus"
 	"go.uber.org/ratelimit"
 
-	"github.com/l3uddz/tqm/httputils"
-	"github.com/l3uddz/tqm/logger"
+	"github.com/saltydk/tqm/httputils"
+	"github.com/saltydk/tqm/logger"
 )
 
 type BHDConfig struct {

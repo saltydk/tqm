@@ -3,7 +3,7 @@ package client
 import (
 	"fmt"
 	"github.com/shirou/gopsutil/disk"
-	"io/ioutil"
+	"io"
 	"path/filepath"
 	"strings"
 	"time"
@@ -12,11 +12,11 @@ import (
 	"github.com/l3uddz/go-qbt"
 	"github.com/sirupsen/logrus"
 
-	"github.com/l3uddz/tqm/config"
-	"github.com/l3uddz/tqm/expression"
-	"github.com/l3uddz/tqm/logger"
-	"github.com/l3uddz/tqm/sliceutils"
-	"github.com/l3uddz/tqm/stringutils"
+	"github.com/saltydk/tqm/config"
+	"github.com/saltydk/tqm/expression"
+	"github.com/saltydk/tqm/logger"
+	"github.com/saltydk/tqm/sliceutils"
+	"github.com/saltydk/tqm/stringutils"
 )
 
 /* Struct */
@@ -60,7 +60,7 @@ func NewQBittorrent(name string, exp *expression.Expressions) (Interface, error)
 
 	// init client
 	qbl := logrus.New()
-	qbl.Out = ioutil.Discard
+	qbl.Out = io.Discard
 	tc.client = qbittorrent.NewClient(strings.TrimSuffix(*tc.Url, "/"), qbl)
 
 	return &tc, nil
@@ -80,6 +80,7 @@ func (c *QBittorrent) Connect() error {
 
 	// retrieve & validate api version
 	apiVersion, err := c.client.Application.GetAPIVersion()
+	c.log.Debugf("API Version (converted): %v", apiVersion[0:3])
 	if err != nil {
 		return fmt.Errorf("get api version: %w", err)
 	} else if stringutils.Atof64(apiVersion[0:3], 0.0) < 2.2 {

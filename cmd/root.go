@@ -2,15 +2,15 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/l3uddz/tqm/runtime"
-	"github.com/l3uddz/tqm/stringutils"
-	"github.com/l3uddz/tqm/tracker"
+	"github.com/saltydk/tqm/runtime"
+	"github.com/saltydk/tqm/stringutils"
+	"github.com/saltydk/tqm/tracker"
 	"os"
 	"path/filepath"
 
-	"github.com/l3uddz/tqm/config"
-	"github.com/l3uddz/tqm/logger"
 	"github.com/pkg/errors"
+	"github.com/saltydk/tqm/config"
+	"github.com/saltydk/tqm/logger"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )

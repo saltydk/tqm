@@ -8,7 +8,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"go.uber.org/ratelimit"
 
-	"github.com/l3uddz/tqm/runtime"
+	"github.com/saltydk/tqm/runtime"
 )
 
 func NewRetryableHttpClient(timeout time.Duration, rl ratelimit.Limiter, log *logrus.Entry) *http.Client {

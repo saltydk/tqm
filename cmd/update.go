@@ -3,8 +3,8 @@ package cmd
 import (
 	"bufio"
 	"github.com/blang/semver"
-	"github.com/l3uddz/tqm/runtime"
 	"github.com/rhysd/go-github-selfupdate/selfupdate"
+	"github.com/saltydk/tqm/runtime"
 	"github.com/spf13/cobra"
 	"os"
 )

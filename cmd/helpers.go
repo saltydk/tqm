@@ -6,9 +6,9 @@ import (
 	"github.com/dustin/go-humanize"
 	"github.com/sirupsen/logrus"
 
-	"github.com/l3uddz/tqm/client"
-	"github.com/l3uddz/tqm/config"
-	"github.com/l3uddz/tqm/torrentfilemap"
+	"github.com/saltydk/tqm/client"
+	"github.com/saltydk/tqm/config"
+	"github.com/saltydk/tqm/torrentfilemap"
 )
 
 // relabel torrent that meet required filters

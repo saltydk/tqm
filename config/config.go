@@ -5,9 +5,9 @@ import (
 	"github.com/knadh/koanf"
 	"github.com/knadh/koanf/parsers/yaml"
 	"github.com/knadh/koanf/providers/file"
-	"github.com/l3uddz/tqm/logger"
-	"github.com/l3uddz/tqm/stringutils"
-	"github.com/l3uddz/tqm/tracker"
+	"github.com/saltydk/tqm/logger"
+	"github.com/saltydk/tqm/stringutils"
+	"github.com/saltydk/tqm/tracker"
 )
 
 type Configuration struct {

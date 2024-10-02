@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/l3uddz/tqm/tracker"
+	"github.com/saltydk/tqm/tracker"
 	"strings"
 )
 

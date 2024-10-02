@@ -8,12 +8,12 @@ import (
 	"github.com/dustin/go-humanize"
 	"github.com/spf13/cobra"
 
-	"github.com/l3uddz/tqm/client"
-	"github.com/l3uddz/tqm/config"
-	"github.com/l3uddz/tqm/logger"
-	paths "github.com/l3uddz/tqm/pathutils"
-	"github.com/l3uddz/tqm/torrentfilemap"
-	"github.com/l3uddz/tqm/tracker"
+	"github.com/saltydk/tqm/client"
+	"github.com/saltydk/tqm/config"
+	"github.com/saltydk/tqm/logger"
+	paths "github.com/saltydk/tqm/pathutils"
+	"github.com/saltydk/tqm/torrentfilemap"
+	"github.com/saltydk/tqm/tracker"
 )
 
 var orphanCmd = &cobra.Command{

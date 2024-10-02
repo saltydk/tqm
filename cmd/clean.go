@@ -5,12 +5,12 @@ import (
 	"github.com/dustin/go-humanize"
 	"github.com/spf13/cobra"
 
-	"github.com/l3uddz/tqm/client"
-	"github.com/l3uddz/tqm/config"
-	"github.com/l3uddz/tqm/expression"
-	"github.com/l3uddz/tqm/logger"
-	"github.com/l3uddz/tqm/torrentfilemap"
-	"github.com/l3uddz/tqm/tracker"
+	"github.com/saltydk/tqm/client"
+	"github.com/saltydk/tqm/config"
+	"github.com/saltydk/tqm/expression"
+	"github.com/saltydk/tqm/logger"
+	"github.com/saltydk/tqm/torrentfilemap"
+	"github.com/saltydk/tqm/tracker"
 )
 
 var cleanCmd = &cobra.Command{
