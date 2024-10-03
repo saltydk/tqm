@@ -33,7 +33,7 @@ require (
 	github.com/hashicorp/go-retryablehttp v0.7.7
 	github.com/hashicorp/go-version v1.7.0
 	github.com/lucperkins/rek v0.1.3
-	github.com/saltydk/go-qbt v1.0.0
+	github.com/saltydk/go-qbt v1.0.1
 	github.com/shirou/gopsutil v3.21.11+incompatible
 	go.uber.org/ratelimit v0.3.1
 )

@@ -170,6 +170,7 @@ func (c *QBittorrent) GetTorrents() (map[string]config.Torrent, error) {
 				"downloading",
 				"stalledDL",
 				"queuedDL",
+				"pausedDL",
 				"stoppedDL",
 				"checkingDL",
 			}, string(t.State), true),
@@ -202,16 +203,45 @@ func (c *QBittorrent) GetTorrents() (map[string]config.Torrent, error) {
 }
 
 func (c *QBittorrent) RemoveTorrent(hash string, deleteData bool) (bool, error) {
-	// stop torrent
-	if err := c.client.Torrent.StopTorrents([]string{hash}); err != nil {
-		return false, fmt.Errorf("stop torrent: %v: %w", hash, err)
+	// retrieve api version
+	apiVersionStr, err := c.client.Application.GetAPIVersion()
+	if err != nil {
+		return false, fmt.Errorf("get api version: %w", err)
+	}
+
+	// Parse version string
+	apiVersion, err := version.NewVersion(apiVersionStr)
+	if err != nil {
+		return false, fmt.Errorf("parse api version: %w", err)
+	}
+
+	// Define cutoff version
+	cutoffVersion, _ := version.NewVersion("2.11")
+
+	if apiVersion.LessThan(cutoffVersion) {
+		// stop torrent (<5.0.0)
+		if err := c.client.Torrent.PauseTorrents([]string{hash}); err != nil {
+			return false, fmt.Errorf("stop torrent: %v: %w", hash, err)
+		}
+	} else {
+		// stop torrent (5.0.0+)
+		if err := c.client.Torrent.StopTorrents([]string{hash}); err != nil {
+			return false, fmt.Errorf("stop torrent: %v: %w", hash, err)
+		}
 	}
 
 	time.Sleep(1 * time.Second)
 
-	// start torrent
-	if err := c.client.Torrent.ResumeTorrents([]string{hash}); err != nil {
-		return false, fmt.Errorf("start torrent: %v: %w", hash, err)
+	if apiVersion.LessThan(cutoffVersion) {
+		// Resume torrent (<5.0.0)
+		if err := c.client.Torrent.ResumeTorrents([]string{hash}); err != nil {
+			return false, fmt.Errorf("resume torrent: %v: %w", hash, err)
+		}
+	} else {
+		// start torrent (5.0.0+)
+		if err := c.client.Torrent.StartTorrents([]string{hash}); err != nil {
+			return false, fmt.Errorf("start torrent: %v: %w", hash, err)
+		}
 	}
 
 	// sleep before re-announcing torrent
@@ -224,7 +254,7 @@ func (c *QBittorrent) RemoveTorrent(hash string, deleteData bool) (bool, error) 
 	// sleep before removing torrent
 	time.Sleep(2 * time.Second)
 
-	// remove
+	// remove torrent
 	if err := c.client.Torrent.DeleteTorrents([]string{hash}, deleteData); err != nil {
 		return false, fmt.Errorf("delete torrent: %v: %w", hash, err)
 	}
