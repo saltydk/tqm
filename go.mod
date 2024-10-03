@@ -9,7 +9,6 @@ require (
 	github.com/expr-lang/expr v1.16.9
 	github.com/gdm85/go-libdeluge v0.6.0
 	github.com/knadh/koanf v1.5.0
-	github.com/l3uddz/go-qbt v1.0.1
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
@@ -34,6 +33,7 @@ require (
 	github.com/hashicorp/go-retryablehttp v0.7.7
 	github.com/hashicorp/go-version v1.7.0
 	github.com/lucperkins/rek v0.1.3
+	github.com/saltydk/go-qbt v1.0.0
 	github.com/shirou/gopsutil v3.21.11+incompatible
 	go.uber.org/ratelimit v0.3.1
 )

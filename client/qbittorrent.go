@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/dustin/go-humanize"
-	"github.com/l3uddz/go-qbt"
+	"github.com/saltydk/go-qbt"
 	"github.com/saltydk/tqm/config"
 	"github.com/saltydk/tqm/expression"
 	"github.com/saltydk/tqm/logger"
