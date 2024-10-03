@@ -170,7 +170,7 @@ func (c *QBittorrent) GetTorrents() (map[string]config.Torrent, error) {
 				"downloading",
 				"stalledDL",
 				"queuedDL",
-				"pausedDL",
+				"stoppedDL",
 				"checkingDL",
 			}, string(t.State), true),
 			Seeding: sliceutils.StringSliceContains([]string{
@@ -202,16 +202,16 @@ func (c *QBittorrent) GetTorrents() (map[string]config.Torrent, error) {
 }
 
 func (c *QBittorrent) RemoveTorrent(hash string, deleteData bool) (bool, error) {
-	// pause torrent
+	// stop torrent
 	if err := c.client.Torrent.StopTorrents([]string{hash}); err != nil {
-		return false, fmt.Errorf("pause torrent: %v: %w", hash, err)
+		return false, fmt.Errorf("stop torrent: %v: %w", hash, err)
 	}
 
 	time.Sleep(1 * time.Second)
 
-	// resume torrent
+	// start torrent
 	if err := c.client.Torrent.ResumeTorrents([]string{hash}); err != nil {
-		return false, fmt.Errorf("resume torrent: %v: %w", hash, err)
+		return false, fmt.Errorf("start torrent: %v: %w", hash, err)
 	}
 
 	// sleep before re-announcing torrent
